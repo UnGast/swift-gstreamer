@@ -1,0 +1,1 @@
+#include <gstreamer-1.0/gst/gst.h>
