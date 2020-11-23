@@ -18,7 +18,7 @@ let package = Package(
     targets: [
         .target(
             name: "GStreamer",
-            dependencies: []),
+            dependencies: ["CGStreamer", "CGStreamerHelpers"]),
         .systemLibrary(name: "CGStreamer", pkgConfig: "gstreamer-1.0", providers: [
             .brew(["gstreamer-1.0"])
         ]),
@@ -32,7 +32,7 @@ let package = Package(
         ),
         .target(
             name: "GStreamerExample",
-            dependencies: ["CGStreamer", "CGStreamerHelpers"]),
+            dependencies: ["GStreamer", "CGStreamer", "CGStreamerHelpers"]),
         .testTarget(
             name: "GStreamerTests",
             dependencies: ["GStreamer"]),
