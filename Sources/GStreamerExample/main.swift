@@ -7,7 +7,7 @@ gst_init(nil, nil)
 var loop = g_main_loop_new(nil, 0)
 
 var pipeline = Pipeline()
-var source = AudioTestSrc()
+var source = AudioTestSource()
 var sink = AutoAudioSink()
 
 pipeline.add(source)

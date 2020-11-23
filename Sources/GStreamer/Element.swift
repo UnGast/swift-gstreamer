@@ -4,8 +4,18 @@ import CGStreamerHelpers
 public class Element {
   internal var internalElement: UnsafeMutablePointer<GstElement>
 
+  public var name: String {
+    get {
+      String(cString: gst_object_get_name(object_cast(internalElement)))
+    }
+  }
+
   public init(internalElement: UnsafeMutablePointer<GstElement>) {
     self.internalElement = internalElement
+  }
+
+  deinit {
+    gst_object_unref(internalElement)
   }
 
   public func link(to destination: Element) {

@@ -9,3 +9,7 @@ void test() {
 GstBin* bin_cast(GstElement* el) {
   return GST_BIN(el);
 }
+
+GstObject* object_cast(GstElement* el) {
+  return GST_OBJECT(el);
+}

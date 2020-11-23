@@ -3,3 +3,5 @@
 void test();
 
 GstBin* bin_cast(GstElement* el);
+
+GstObject* object_cast(GstElement* el);
