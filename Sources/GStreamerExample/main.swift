@@ -7,13 +7,16 @@ gst_init(nil, nil)
 var loop = g_main_loop_new(nil, 0)
 
 var pipeline = Pipeline()
-var source = AudioTestSource()
-var sink = AutoAudioSink()
+var source = VideoTestSource()
+var encoder = AVEncH263()
+var sink = TcpServerSink(host: "localhost", port: 3000)
 
 pipeline.add(source)
+pipeline.add(encoder)
 pipeline.add(sink)
 
-source.link(to: sink)
+source.link(to: encoder)
+encoder.link(to: sink)
 
 //var pipeline = gst_pipeline_new("audio-player")
 
@@ -35,11 +38,15 @@ try pipeline.play()
 
 print("HERE1")
 
-g_main_loop_run(loop)
+//g_main_loop_run(loop)
 
 print("HERE")
 
-try pipeline.setState(.null)
+while true {
 
-g_main_loop_unref(loop)
+}
+
+//try pipeline.setState(.null)
+
+//g_main_loop_unref(loop)
 
