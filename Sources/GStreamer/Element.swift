@@ -44,6 +44,15 @@ public class Element {
     }
   }
 
+  public func setProperty<T: GValueConvertible>(name: String, value: T) {
+    var gvalue = value.toGValue()
+    g_object_set_property(gobject_cast(internalElement), name, &gvalue)
+  }
+
+  public func setProperty<T: GValueConvertible>(_ name: String, _ value: T) {
+    setProperty(name: name, value: value)
+  }
+
   public enum State {
     case null, ready, paused, playing
   }
