@@ -1,0 +1,4 @@
+module CGStreamerHelpers {
+  header "include/helpers.h"
+  export *
+}

@@ -13,15 +13,26 @@ let package = Package(
         )
     ],
     dependencies: [
+        //.package(url: "https://github.com/rhx/SwiftGLib.git", .branch("master"))
     ],
     targets: [
         .target(
             name: "GStreamer",
             dependencies: []),
-        .systemLibrary(name: "CGStreamer", pkgConfig: "gstreamer-1.0"),
+        .systemLibrary(name: "CGStreamer", pkgConfig: "gstreamer-1.0", providers: [
+            .brew(["gstreamer-1.0"])
+        ]),
+        .systemLibrary(name: "CGLib", pkgConfig: "glib-2.0 gio-unix-2.0",
+            providers: [
+                .brew(["glib", "glib-networking", "gobject-introspection"]),
+                .apt(["libglib2.0-dev", "glib-networking", "gobject-introspection", "libgirepository1.0-dev"])
+            ]),
+        .target(
+            name: "CGStreamerHelpers"
+        ),
         .target(
             name: "GStreamerExample",
-            dependencies: ["CGStreamer"]),
+            dependencies: ["CGStreamer", "CGStreamerHelpers"]),
         .testTarget(
             name: "GStreamerTests",
             dependencies: ["GStreamer"]),
