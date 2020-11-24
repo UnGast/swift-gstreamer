@@ -18,6 +18,14 @@ public class Element {
     gst_object_unref(internalElement)
   }
 
+  public func getStaticPad(_ name: String) -> Pad? {
+    if let internalPadRef = gst_element_get_static_pad(internalElement, name) {
+      return Pad(internalReference: internalPadRef)
+    } else {
+      return nil
+    }
+  }
+
   public func link(to destination: Element) {
     gst_element_link(internalElement, destination.internalElement)
   }
@@ -42,6 +50,14 @@ public class Element {
     if result == GST_STATE_CHANGE_FAILURE {
       throw Error.StateChangeFailed
     }
+  }
+
+  public func setProperty(name: String, value: OpaquePointer) {
+    set_gst_element_struct_field(internalElement, name, value)
+  }
+
+  public func setProperty(_ name: String, _ value: OpaquePointer) {
+    setProperty(name: name, value: value)
   }
 
   public func setProperty<T: GValueConvertible>(name: String, value: T) {

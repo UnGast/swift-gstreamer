@@ -8,15 +8,22 @@ var loop = g_main_loop_new(nil, 0)
 
 var pipeline = Pipeline()
 var source = VideoTestSource()
-var encoder = AVEncH263()
-var sink = TcpServerSink(host: "localhost", port: 3000)
+var capsfilter = Capsfilter()
+//var encoder = AVEncH263()
+var sink = AppSink()
+
+
 
 pipeline.add(source)
-pipeline.add(encoder)
+pipeline.add(capsfilter)
 pipeline.add(sink)
 
-source.link(to: encoder)
-encoder.link(to: sink)
+var caps = Caps(mediaType: "video/x-raw", format: "RGB", width: 10, height: 10)
+capsfilter.setCaps(caps)
+
+source.link(to: capsfilter)
+capsfilter.link(to: sink)
+//encoder.link(to: sink)
 
 //var pipeline = gst_pipeline_new("audio-player")
 
@@ -36,7 +43,11 @@ gst_bin_add(bin, sink)*/
 //gst_element_set_state(pipeline, GST_STATE_PLAYING)
 try pipeline.play()
 
-print("HERE1")
+let sample = sink.pullSample()
+let buffer = sample.getBuffer()
+let mapInfo = buffer.map()
+
+print("HERE1", sample, buffer, mapInfo.maxsize)
 
 //g_main_loop_run(loop)
 

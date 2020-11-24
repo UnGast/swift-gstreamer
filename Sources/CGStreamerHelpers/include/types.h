@@ -1,0 +1,1 @@
+struct any_object;
