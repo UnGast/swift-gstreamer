@@ -7,7 +7,7 @@ public class Buffer {
     self.internalData = internalData
   }
 
-  public func map() -> GstMapInfo {
+  public func getMap() -> GstMapInfo {
     var mapInfo = GstMapInfo()
     gst_buffer_map(internalData, &mapInfo, GST_MAP_READ)
     return mapInfo

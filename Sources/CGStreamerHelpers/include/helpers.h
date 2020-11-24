@@ -1,9 +1,10 @@
 #include <gstreamer-1.0/gst/gst.h>
-#include <gstreamer-1.0/gst/gstsample.h>
+//#include <gstreamer-1.0/gst/gstsample.h>
 #include <gstreamer-1.0/gst/app/app.h>
-#include <gstreamer-1.0/gst/app/app-prelude.h>
-#include <gstreamer-1.0/gst/app/app-enumtypes.h>
+//#include <gstreamer-1.0/gst/app/app-prelude.h>
+//#include <gstreamer-1.0/gst/app/app-enumtypes.h>
 #include <gstreamer-1.0/gst/app/gstappsink.h>
+//#include <gst.h>
 #include <glib-2.0/glib.h>
 #include <glib-2.0/glib-object.h>
 #include <stdbool.h>

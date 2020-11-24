@@ -12,7 +12,7 @@ var capsfilter = Capsfilter()
 //var encoder = AVEncH263()
 var sink = AppSink()
 
-
+source.setPattern(.white)
 
 pipeline.add(source)
 pipeline.add(capsfilter)
@@ -45,19 +45,25 @@ try pipeline.play()
 
 let sample = sink.pullSample()
 let buffer = sample.getBuffer()
-let mapInfo = buffer.map()
+let mapInfo = buffer.getMap()
 
-print("HERE1", sample, buffer, mapInfo.maxsize)
+print("HERE1", sample, buffer, mapInfo, mapInfo.data!, mapInfo.maxsize)
+
+let data = UnsafeMutableRawBufferPointer(start: mapInfo.data!, count: Int(mapInfo.maxsize)).bindMemory(to: UInt8.self)
+print(Array(data), data.count)
+
+
+//let data = UnsafeRawBufferPointer()
 
 //g_main_loop_run(loop)
 
 print("HERE")
-
+/*
 while true {
 
-}
+}*/
 
-//try pipeline.setState(.null)
+try pipeline.setState(.null)
 
 //g_main_loop_unref(loop)
 

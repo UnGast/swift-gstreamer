@@ -39,11 +39,11 @@ public class Element {
     let result: GstStateChangeReturn
     switch newState {
     case .null:
-      result = gst_element_set_state(internalElement, GST_STATE_PLAYING)
+      result = gst_element_set_state(internalElement, GST_STATE_NULL)
     case .ready:
-      result = gst_element_set_state(internalElement, GST_STATE_PLAYING)
+      result = gst_element_set_state(internalElement, GST_STATE_READY)
     case .paused:
-      result = gst_element_set_state(internalElement, GST_STATE_PLAYING)
+      result = gst_element_set_state(internalElement, GST_STATE_PAUSED)
     case .playing:
       result = gst_element_set_state(internalElement, GST_STATE_PLAYING)
     }
