@@ -1,15 +1,19 @@
 import CGStreamer
 
 public class Buffer {
-  private let internalData: UnsafeMutablePointer<GstBuffer>
+  internal let internalReference: UnsafeMutablePointer<GstBuffer>
   
-  public init(internalData: UnsafeMutablePointer<GstBuffer>) {
-    self.internalData = internalData
+  public init(_ internalReference: UnsafeMutablePointer<GstBuffer>) {
+    self.internalReference = internalReference
   }
 
-  public func getMap() -> GstMapInfo {
+  deinit {
+    gst_buffer_unref(internalReference)
+  }
+
+  public func getMap() -> MapInfo {
     var mapInfo = GstMapInfo()
-    gst_buffer_map(internalData, &mapInfo, GST_MAP_READ)
-    return mapInfo
+    gst_buffer_map(internalReference, &mapInfo, GST_MAP_READ)
+    return MapInfo(mapInfo, for: self)
   }
 }

@@ -43,6 +43,13 @@ GValue new_gvalue_int(const int value) {
   return gvalue;
 }
 
+GValue new_gvalue_uint32(const uint32_t value) {
+  GValue gvalue = G_VALUE_INIT;
+  g_value_init(&gvalue, G_TYPE_UINT);
+  g_value_set_uint(&gvalue, value);
+  return gvalue;
+}
+
 GValue new_gvalue_bool(const bool value) {
   GValue gvalue = G_VALUE_INIT;
   g_value_init(&gvalue, G_TYPE_BOOLEAN);
@@ -61,6 +68,10 @@ void set_gst_element_struct_field(GstElement* el, const char* name, struct any_o
   g_object_set(G_OBJECT(el), name, value);
 }
 
-GstSample* get_gst_sample(GstElement* sink) {
+GstSample* get_gst_app_sink_sample(GstElement* sink) {
   return gst_app_sink_pull_sample(GST_APP_SINK_CAST(sink));
+}
+
+GstSample* get_gst_app_sink_sample_timeout(GstElement* sink, const double timeout) {
+  return gst_app_sink_try_pull_sample(GST_APP_SINK_CAST(sink), (uint64_t) (timeout * 1000 * 1000));
 }

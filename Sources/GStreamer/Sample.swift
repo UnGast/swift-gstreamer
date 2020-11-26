@@ -2,18 +2,18 @@ import CGStreamer
 import CGStreamerHelpers
 
 public class Sample {
-  private let internalData: OpaquePointer
+  private let internalReference: OpaquePointer
 
-  public init(_ internalData: OpaquePointer) {
-    self.internalData = internalData
+  public init(_ internalReference: OpaquePointer) {
+    self.internalReference = internalReference
   }
 
   deinit {
-    gst_sample_unref(internalData)
+    gst_sample_unref(internalReference)
   }
 
   public func getBuffer() -> Buffer {
-    let buffer = gst_sample_get_buffer(internalData)!
-    return Buffer(internalData: buffer)
+    let buffer = gst_sample_get_buffer(internalReference)!
+    return Buffer(buffer)
   }
 }

@@ -20,6 +20,12 @@ extension Int32: GValueConvertible {
   }
 }
 
+extension UInt32: GValueConvertible {
+  public func toGValue() -> GValue {
+    new_gvalue_uint32(self)
+  }
+}
+
 extension Bool: GValueConvertible {
   public func toGValue() -> GValue {
     new_gvalue_bool(self)
