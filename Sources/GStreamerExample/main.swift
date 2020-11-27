@@ -47,11 +47,7 @@ let sample = sink.pullSample()
 let buffer = sample.getBuffer()
 let mapInfo = buffer.getMap()
 
-print("HERE1", sample, buffer, mapInfo, mapInfo.data!, mapInfo.maxsize)
-
-let data = UnsafeMutableRawBufferPointer(start: mapInfo.data!, count: Int(mapInfo.maxsize)).bindMemory(to: UInt8.self)
-print(Array(data), data.count)
-
+print("HERE1", sample, buffer, mapInfo, mapInfo.data)
 
 //let data = UnsafeRawBufferPointer()
 

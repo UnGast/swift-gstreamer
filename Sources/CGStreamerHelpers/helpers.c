@@ -7,6 +7,7 @@
 #include <glib-2.0/glib.h>
 #include <glib-2.0/glib-object.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "include/types.h"
 

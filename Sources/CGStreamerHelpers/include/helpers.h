@@ -9,6 +9,7 @@
 #include <glib-2.0/glib-object.h>
 #include <stdbool.h>
 #include "types.h"
+#include <stdint.h>
 
 GstBin* bin_cast(GstElement* el);
 
