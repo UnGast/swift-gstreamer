@@ -30,23 +30,8 @@ public class Element {
     gst_element_link(internalElement, destination.internalElement)
   }
 
-  public func play() throws {
-    //state = .playing
-    try setState(.playing)
-  }
-
   public func setState(_ newState: State) throws {
-    let result: GstStateChangeReturn
-    switch newState {
-    case .null:
-      result = gst_element_set_state(internalElement, GST_STATE_NULL)
-    case .ready:
-      result = gst_element_set_state(internalElement, GST_STATE_READY)
-    case .paused:
-      result = gst_element_set_state(internalElement, GST_STATE_PAUSED)
-    case .playing:
-      result = gst_element_set_state(internalElement, GST_STATE_PLAYING)
-    }
+    let result: GstStateChangeReturn = gst_element_set_state(internalElement, newState.rawValue)
     if result == GST_STATE_CHANGE_FAILURE {
       throw Error.StateChangeFailed
     }
@@ -69,8 +54,44 @@ public class Element {
     setProperty(name: name, value: value)
   }
 
-  public enum State {
-    case null, ready, paused, playing
+  public enum State: RawRepresentable {
+    case voidPending
+    case null
+    case ready
+    case paused
+    case playing
+
+    public init?(rawValue: GstState) {
+      switch rawValue {
+      case GST_STATE_VOID_PENDING:
+        self = .voidPending
+      case GST_STATE_NULL:
+        self = .null
+      case GST_STATE_READY:
+        self = .ready
+      case GST_STATE_PAUSED:
+        self = .paused
+      case GST_STATE_PLAYING:
+        self = .playing
+      default:
+        return nil
+      }
+    }
+
+    public var rawValue: GstState {
+      switch self {
+      case .voidPending:
+        return GST_STATE_VOID_PENDING
+      case .null:
+        return GST_STATE_NULL
+      case .ready:
+        return GST_STATE_READY
+      case .paused:
+        return GST_STATE_PAUSED
+      case .playing:
+        return GST_STATE_PLAYING
+      }
+    }
   }
 
   public enum Error: Swift.Error {

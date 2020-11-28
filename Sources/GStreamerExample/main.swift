@@ -18,7 +18,7 @@ pipeline.add(source)
 pipeline.add(capsfilter)
 pipeline.add(sink)
 
-var caps = Caps(mediaType: "video/x-raw", format: "RGB", width: 10, height: 10)
+var caps = Caps(mediaType: "video/x-raw", format: "RGB", width: 400, height: 400)
 capsfilter.setCaps(caps)
 
 source.link(to: capsfilter)
@@ -43,11 +43,12 @@ gst_bin_add(bin, sink)*/
 //gst_element_set_state(pipeline, GST_STATE_PLAYING)
 try pipeline.play()
 
-let sample = sink.pullSample()
+if let sample = sink.pullSample() {
 let buffer = sample.getBuffer()
 let mapInfo = buffer.getMap()
 
-print("HERE1", sample, buffer, mapInfo, mapInfo.data)
+print("SAMPLE", sample, buffer, mapInfo, mapInfo.data)
+}
 
 //let data = UnsafeRawBufferPointer()
 

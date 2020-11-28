@@ -13,6 +13,8 @@
 
 GstBin* bin_cast(GstElement* el);
 
+GstPipeline* pipeline_cast(GstElement* el);
+
 GstObject* object_cast(GstElement* el);
 
 GObject* gobject_cast(GstElement *object);
@@ -34,3 +36,5 @@ void set_gst_element_struct_field(GstElement* el, const char* name, struct any_o
 GstSample* get_gst_app_sink_sample(GstElement* sink);
 
 GstSample* get_gst_app_sink_sample_timeout(GstElement* sink, const double timeout);
+
+int get_gst_message_type(GstMessage* message);

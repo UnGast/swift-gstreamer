@@ -15,6 +15,10 @@ GstBin* bin_cast(GstElement* el) {
   return GST_BIN(el);
 }
 
+GstPipeline* pipeline_cast(GstElement* el) {
+  return GST_PIPELINE(el);
+}
+
 GstObject* object_cast(GstElement* el) {
   return GST_OBJECT(el);
 }
@@ -75,4 +79,8 @@ GstSample* get_gst_app_sink_sample(GstElement* sink) {
 
 GstSample* get_gst_app_sink_sample_timeout(GstElement* sink, const double timeout) {
   return gst_app_sink_try_pull_sample(GST_APP_SINK_CAST(sink), (uint64_t) (timeout * 1000 * 1000));
+}
+
+int get_gst_message_type(GstMessage* message) {
+  return GST_MESSAGE_TYPE(message);
 }

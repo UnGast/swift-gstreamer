@@ -14,9 +14,11 @@ public class AppSink: Element {
     setProperty("drop", drop)
   }
 
-  public func pullSample() -> Sample {
-    let sample = get_gst_app_sink_sample(internalElement)!
-    return Sample(sample)
+  public func pullSample() -> Sample? {
+    if let sample = get_gst_app_sink_sample(internalElement) {
+      return Sample(sample)
+    }
+    return nil
   }
 
   public func tryPullSample(timeout: Double) -> Sample? {
