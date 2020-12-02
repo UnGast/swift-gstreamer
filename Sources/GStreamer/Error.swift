@@ -1,14 +1,26 @@
 import CGStreamer
 
-public class Error {
+public class Error: Swift.Error, CustomDebugStringConvertible {
   private let internalReference: UnsafeMutablePointer<GError>
 
   public init(internalReference: UnsafeMutablePointer<GError>) {
     self.internalReference = internalReference
   }
 
+  public var localizedDescription: String {
+    "\(message), \(gstMessage)"
+  }
+
+  public var debugDescription: String {
+    localizedDescription
+  }
+
   public var message: String {
-    String(cString: internalReference.pointee.message)
+    if let rawMessage = internalReference.pointee.message {
+      return String(cString: rawMessage)
+    } else {
+      return ""
+    }
   }
 
   public var gstMessage: String {
