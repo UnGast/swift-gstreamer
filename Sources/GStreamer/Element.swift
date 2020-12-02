@@ -37,6 +37,17 @@ public class Element {
     }
   }
 
+  public func getState() throws -> State {
+    var currentState = UnsafeMutablePointer<GstState>.allocate(capacity: 1)
+    // TODO: what to do with pending state
+    var pendingState = UnsafeMutablePointer<GstState>.allocate(capacity: 1)
+    let stateChangeResult = gst_element_get_state(internalElement, currentState, pendingState, 0)
+    if stateChangeResult == GST_STATE_CHANGE_FAILURE {
+      throw Error.StateChangeFailed
+    }
+    return State(rawValue: currentState.pointee)!
+  }
+
   public func setProperty(name: String, value: OpaquePointer) {
     set_gst_element_struct_field(internalElement, name, value)
   }
@@ -52,6 +63,16 @@ public class Element {
 
   public func setProperty<T: GValueConvertible>(_ name: String, _ value: T) {
     setProperty(name: name, value: value)
+  }
+
+  public func getProperty<T: GValueConvertible>(name: String, type: T.Type) -> T? {
+    var gvalue = new_gvalue()
+    g_object_get_property(gobject_cast(internalElement), name, &gvalue)
+    return T.init(gvalue: gvalue) 
+  }
+
+  public func getProperty<T: GValueConvertible>(_ name: String, _ type: T.Type) -> T? {
+    getProperty(name: name, type: type)
   }
 
   public enum State: RawRepresentable {

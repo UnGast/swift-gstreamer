@@ -6,6 +6,16 @@ public class VideoTestSource: Element {
     super.init(internalElement: gst_element_factory_make("videotestsrc", name))
   }
 
+  public var isLive: Bool {
+    get {
+      getProperty("is-live", Bool.self)!
+    }
+
+    set {
+      setProperty("is-live", newValue)
+    }
+  }
+
   public func setPattern(_ pattern: Pattern) {
     setProperty("pattern", pattern.rawValue)
   }
