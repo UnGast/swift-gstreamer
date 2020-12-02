@@ -119,3 +119,13 @@ public class Element {
     case StateChangeFailed
   }
 }
+
+public func link(_ elements: Element...) {
+  if elements.count > 1 {
+    var previousElement = elements[0]
+    for i in 1..<elements.count {
+      previousElement.link(to: elements[i])
+      previousElement = elements[i]
+    }
+  }
+}

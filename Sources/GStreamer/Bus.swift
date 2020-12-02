@@ -32,4 +32,13 @@ public class Bus {
     }
     return messages
   }
+
+  public func popAllPrintErrors() {
+    let messages = popAll()
+    for message in messages {
+      if case let .error(value) = message.data {
+        print("error: \(value.message)")
+      }
+    }
+  }
 }
