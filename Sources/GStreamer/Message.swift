@@ -23,6 +23,13 @@ public class Message {
       var newState = UnsafeMutablePointer<GstState>.allocate(capacity: 1)
       gst_message_parse_state_changed(internalReference, oldState, newState, nil)
       return .stateChanged(oldState: Element.State(rawValue: oldState.pointee)!, newState: Element.State(rawValue: newState.pointee)!)
+    case .error:
+      var errorValuePointer = Optional(UnsafeMutablePointer<GError>.allocate(capacity: 1))
+      gst_message_parse_error(internalReference, &errorValuePointer, nil)
+      if let errorValuePointer = errorValuePointer {
+        return .error(GStreamer.Error(internalReference: errorValuePointer))
+      }
+      return nil
     default:
       return nil
     }
@@ -75,5 +82,6 @@ public class Message {
 
   public enum MessageData {
     case stateChanged(oldState: Element.State, newState: Element.State)
+    case error(_ error: GStreamer.Error)
   }
 }

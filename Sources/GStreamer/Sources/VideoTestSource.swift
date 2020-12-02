@@ -2,8 +2,8 @@ import CGStreamer
 import CGStreamerHelpers
 
 public class VideoTestSource: Element {
-  public init(name: String? = nil) {
-    super.init(internalElement: gst_element_factory_make("videotestsrc", name))
+  public convenience init(name: String? = nil) {
+    self.init(internalElement: gst_element_factory_make("videotestsrc", name))
   }
 
   public var isLive: Bool {

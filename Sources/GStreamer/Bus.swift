@@ -37,7 +37,7 @@ public class Bus {
     let messages = popAll()
     for message in messages {
       if case let .error(value) = message.data {
-        print("error: \(value.message)")
+        print("error: \(value.message) \(value.gstMessage)")
       }
     }
   }

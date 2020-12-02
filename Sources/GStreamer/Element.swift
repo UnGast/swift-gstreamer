@@ -10,7 +10,7 @@ public class Element {
     }
   }
 
-  public init(internalElement: UnsafeMutablePointer<GstElement>) {
+  required public init(internalElement: UnsafeMutablePointer<GstElement>) {
     self.internalElement = internalElement
   }
 

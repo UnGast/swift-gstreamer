@@ -8,12 +8,16 @@ public class Sample {
     self.internalReference = internalReference
   }
 
-  deinit {
+  public func unref() {
     gst_sample_unref(internalReference)
+    print("SAMPLE DEINIT")
   }
 
-  public func getBuffer() -> Buffer {
-    let buffer = gst_sample_get_buffer(internalReference)!
-    return Buffer(buffer)
+  public func getBuffer() -> Buffer? {
+    if let buffer = gst_sample_get_buffer(internalReference) {
+      return Buffer(buffer, parent: self)
+    } else {
+      return nil
+    }
   }
 }

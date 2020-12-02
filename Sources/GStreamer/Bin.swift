@@ -4,22 +4,18 @@ import CGStreamerHelpers
 public class Bin: Element {
   private var children = [Element]()
 
-  public init(name: String? = nil) {
-    super.init(internalElement: gst_bin_new(name))
+  public convenience init(name: String? = nil) {
+    self.init(internalElement: gst_bin_new(name))
   }
 
-  override internal init(internalElement: UnsafeMutablePointer<GstElement>) {
-    super.init(internalElement: internalElement)
-  }
-
-  public init?(parse binDescription: String) {
+  public convenience init?(parse binDescription: String) {
     var error = Optional(UnsafeMutablePointer<GError>.allocate(capacity: 1))
     if let internalElement = gst_parse_bin_from_description(binDescription, Int32(0), nil) {
       print("PARSE", internalElement)
       /*if let error = error {
         return nil
       }*/
-      super.init(internalElement: internalElement)
+      self.init(internalElement: internalElement)
       return
     }
     return nil
@@ -35,5 +31,12 @@ public class Bin: Element {
     for element in elements {
       add(element)
     }
+  }
+
+  public func getElementBy<T: Element>(name: String, type: T.Type) -> T? {
+    if let reference = gst_bin_get_by_name(bin_cast(internalElement), name) {
+      return T(internalElement: reference)
+    }
+    return nil
   }
 }

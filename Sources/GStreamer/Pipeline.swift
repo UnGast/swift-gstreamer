@@ -2,13 +2,13 @@ import CGStreamer
 import CGStreamerHelpers
 
 public class Pipeline: Bin {
-  override public init(name: String? = nil) {
-    super.init(internalElement: gst_pipeline_new(name))
+  public convenience init(name: String? = nil) {
+    self.init(internalElement: gst_pipeline_new(name))
   }
 
-  override public init?(parse pipelineDescription: String) {
+  public convenience init?(parse pipelineDescription: String) {
     if let internalElement = gst_parse_launch(pipelineDescription, nil) {
-      super.init(internalElement: internalElement)
+      self.init(internalElement: internalElement)
       return
     }
     return nil

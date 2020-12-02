@@ -12,8 +12,12 @@ public class Caps: CustomDebugStringConvertible {
     self.internalReference = internalReference
   }
 
-  public init(mediaType: String, format: String, width: Int, height: Int) {
+  public init(mediaType: String) {
     internalReference = gst_caps_new_empty_simple(mediaType)
+  }
+
+  public convenience init(mediaType: String, format: String, width: Int, height: Int) {
+    self.init(mediaType: mediaType)
     setValue("format", format)
     //setValue("framerate", Fraction(numerator: 30, denominator: 1))
     //setValue("pixel-aspect-ratio", Fraction(numerator: 1, denominator: 1))
@@ -21,7 +25,7 @@ public class Caps: CustomDebugStringConvertible {
     setValue("height", Int32(height))
   }
 
-  private func setValue<T: GValueConvertible>(_ field: String, _ value: T) {
+  public func setValue<T: GValueConvertible>(_ field: String, _ value: T) {
     var gvalue = value.toGValue()
     gst_caps_set_value(internalReference, field, &gvalue)
   }
