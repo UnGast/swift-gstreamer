@@ -4,18 +4,42 @@ import CGStreamerHelpers
 public class Element {
   internal var internalElement: UnsafeMutablePointer<GstElement>
 
-  public var name: String {
-    get {
-      String(cString: gst_object_get_name(object_cast(internalElement)))
-    }
-  }
-
   required public init(internalElement: UnsafeMutablePointer<GstElement>) {
     self.internalElement = internalElement
   }
 
   deinit {
     gst_object_unref(internalElement)
+  }
+
+  public var name: String {
+    get {
+      String(cString: gst_object_get_name(object_cast(internalElement)))
+    }
+  }
+
+  private func convertPadsList(firstListEntry: UnsafeMutablePointer<GList>) -> [Pad] {
+    var result = [Pad]()
+    var nextListEntry = Optional(firstListEntry)
+    while nextListEntry != nil {
+      var padReference = nextListEntry!.pointee.data!.bindMemory(to: GstPad.self, capacity: 1)
+      let pad = Pad(internalReference: padReference)
+      result.append(pad)
+      nextListEntry = nextListEntry!.pointee.next
+    }
+    return result
+  }
+
+  public var pads: [Pad] {
+    convertPadsList(firstListEntry: internalElement.pointee.pads)
+  }
+
+  public var sourcePads: [Pad] {
+    convertPadsList(firstListEntry: internalElement.pointee.srcpads)
+  }
+
+  public var sinkPads: [Pad] {
+    convertPadsList(firstListEntry: internalElement.pointee.sinkpads)
   }
 
   public func getStaticPad(_ name: String) -> Pad? {

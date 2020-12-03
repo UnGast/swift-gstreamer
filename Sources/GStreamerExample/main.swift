@@ -41,13 +41,20 @@ gst_bin_add(bin, sink)*/
 //gst_element_link(source, sink)
 
 //gst_element_set_state(pipeline, GST_STATE_PLAYING)
-try pipeline.play()
+try pipeline.setState(.playing)
+
+for pad in sink.sinkPads {
+  print("SINK PAD", pad)
+  let caps = pad.caps
+  print(caps.getStructure(0)!.get("width", Int32.self))
+}
 
 if let sample = sink.pullSample() {
-let buffer = sample.getBuffer()
+if let buffer = sample.getBuffer() {
 let mapInfo = buffer.getMap()
 
 print("SAMPLE", sample, buffer, mapInfo, mapInfo.data)
+}
 }
 
 //let data = UnsafeRawBufferPointer()
@@ -55,10 +62,10 @@ print("SAMPLE", sample, buffer, mapInfo, mapInfo.data)
 //g_main_loop_run(loop)
 
 print("HERE")
-/*
-while true {
 
-}*/
+while true {
+  sleep(4)
+}
 
 try pipeline.setState(.null)
 

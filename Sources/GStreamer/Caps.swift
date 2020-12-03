@@ -34,6 +34,18 @@ public class Caps: CustomDebugStringConvertible {
     return Caps(internalReference: gst_caps_fixate(internalReference))
   }
 
+  public var isFixed: Bool {
+    gst_caps_is_fixed(internalReference) != 0
+  }
+
+  public func getStructure(_ index: UInt) -> Structure? {
+    let structureReference = gst_caps_get_structure(internalReference, UInt32(index))
+    if let structureReference = structureReference {
+      return Structure(internalReference: structureReference)
+    }
+    return nil
+  }
+
   deinit {
     gst_caps_unref(internalReference)
   }

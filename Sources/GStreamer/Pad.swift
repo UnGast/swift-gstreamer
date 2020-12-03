@@ -7,8 +7,15 @@ public class Pad {
     self.internalReference = internalReference  
   }
 
-  public func setCaps(_ caps: Caps) {
-    gst_pad_set_caps(internalReference, caps.internalReference)
+  public var caps: Caps {
+    get {
+      let capsReference = gst_pad_get_current_caps(internalReference)!
+      return Caps(internalReference: capsReference)
+    }
+    
+    set {
+      gst_pad_set_caps(internalReference, caps.internalReference)
+    }
   }
 
   public func useFixedCaps() {
