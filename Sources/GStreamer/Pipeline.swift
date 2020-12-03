@@ -11,8 +11,8 @@ public class Pipeline: Bin {
     let internalElement = gst_parse_launch(pipelineDescription, nil)//&error)
 
     if let error = error {
-      print("PIPELINE ERROR", error.pointee, error.pointee.domain)
-      if error.pointee.message != nil {
+      // this is a dirty fix...
+      if error.pointee.domain < 1000000 {
         throw GStreamer.Error(internalReference: error)
       }
     }
