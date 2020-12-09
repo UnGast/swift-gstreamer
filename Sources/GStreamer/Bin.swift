@@ -13,10 +13,10 @@ public class Bin: Element {
     let internalElement = gst_parse_bin_from_description(binDescription, Int32(1), nil)//&error)
 
     if let error = error {
-      print("ERORR", error.pointee)
-      // this is a dirty fix...
-      if error.pointee.domain < 1000000 {
+      if error.pointee.code > 0 && error.pointee.code < 127 {
         throw GStreamer.Error(internalReference: error)
+      } else {
+        print("dropped error because of 0 < code < 127", error.pointee)
       }
     }
 
