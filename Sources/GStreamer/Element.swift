@@ -1,8 +1,12 @@
 import CGStreamer
 import CGStreamerHelpers
 
-public class Element {
+open class Element {
   internal var internalElement: UnsafeMutablePointer<GstElement>
+
+  public init(factoryName: String, name: String? = nil) {
+    self.internalElement = gst_element_factory_make(factoryName, name)
+  }
 
   required public init(internalElement: UnsafeMutablePointer<GstElement>) {
     self.internalElement = internalElement
